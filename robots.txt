@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bastian897.github.io/ignacio-ruiz-asesorias/sitemap.xml
+Sitemap: https://ignacio-ruiz-asesorias.vercel.app/sitemap.xml
