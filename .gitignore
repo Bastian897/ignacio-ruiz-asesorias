@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 Thumbs.db
+
+.vercel
+.agents/
+.claude/
+skills-lock.json
