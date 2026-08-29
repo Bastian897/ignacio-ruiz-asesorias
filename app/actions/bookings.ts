@@ -13,8 +13,6 @@ export async function createBookingRequest(formData: FormData) {
 
   const packageId = String(formData.get("package_id") ?? "");
   const requestedNote = String(formData.get("requested_note") ?? "").trim() || null;
-  const preferredRaw = String(formData.get("preferred_datetime") ?? "").trim();
-  const preferredDatetime = preferredRaw ? new Date(preferredRaw).toISOString() : null;
 
   if (!packageId) {
     throw new Error("Elige un paquete.");
@@ -24,7 +22,6 @@ export async function createBookingRequest(formData: FormData) {
     client_id: user!.id,
     package_id: packageId,
     requested_note: requestedNote,
-    preferred_datetime: preferredDatetime,
   });
 
   if (error) {

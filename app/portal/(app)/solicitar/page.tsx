@@ -13,10 +13,7 @@ export default async function SolicitarPage() {
     <>
       <div className="section-head">
         <h2>Solicitar una sesión</h2>
-        <p>
-          Elige un paquete y cuéntanos qué quieres resolver. Ignacio confirma la hora y el pago se coordina por
-          WhatsApp mientras no haya pago en línea.
-        </p>
+        <p>Elige un paquete y cuéntanos qué quieres resolver. Ignacio revisa tu solicitud y coordina la hora contigo.</p>
       </div>
 
       <form action={createBookingRequest} className="portal-card portal-form">
@@ -35,9 +32,6 @@ export default async function SolicitarPage() {
 
         <label htmlFor="requested_note">¿Qué quieres resolver? (opcional)</label>
         <textarea id="requested_note" name="requested_note" rows={4} placeholder="En una línea, cuéntanos tu problema." />
-
-        <label htmlFor="preferred_datetime">Horario preferido (opcional)</label>
-        <input id="preferred_datetime" name="preferred_datetime" type="datetime-local" />
 
         <button className="btn btn-nav" type="submit">
           Enviar solicitud
