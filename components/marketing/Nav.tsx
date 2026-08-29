@@ -9,9 +9,14 @@ export function Nav() {
           <Image src="/assets/img/logo.webp" alt="" width={30} height={30} />
           Ignacio Ruiz
         </Link>
-        <Link className="btn btn-nav" href="/#precios">
-          Agendar
-        </Link>
+        <div className="nav-actions">
+          <Link className="nav-link" href="/portal/login">
+            Portal de clientes
+          </Link>
+          <Link className="btn btn-nav" href="/#precios">
+            Agendar
+          </Link>
+        </div>
       </div>
     </header>
   );
