@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ignacio-ruiz-asesorias.vercel.app/sitemap.xml
