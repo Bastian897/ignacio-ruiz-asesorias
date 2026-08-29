@@ -320,6 +320,11 @@ section {
   letter-spacing: -0.01em;
   margin: 0 0 10px;
 }
+.section-head h3 {
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
 .section-head p {
   color: var(--color-ink-muted);
   margin: 0;
@@ -805,6 +810,20 @@ footer {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+/* Tabla de reservas del admin: tabla en desktop, tarjetas apiladas en mobile — sin scroll horizontal */
+.admin-booking-cards {
+  display: none;
+}
+@media (max-width: 720px) {
+  .portal-table-wrap {
+    display: none;
+  }
+  .admin-booking-cards {
+    display: grid;
+    gap: 4px;
+  }
 }
 
 /* Entrance */

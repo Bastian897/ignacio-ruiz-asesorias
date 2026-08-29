@@ -14,11 +14,16 @@ export default async function PortalDashboard() {
     .eq("client_id", user!.id)
     .order("created_at", { ascending: false });
 
+  const { data: deliverables } = await supabase
+    .from("deliverables")
+    .select("id, summary, action_plan, created_at, bookings(id, created_at, packages(name))")
+    .order("created_at", { ascending: false });
+
   return (
     <>
       <div className="section-head">
-        <h2>Mis reservas</h2>
-        <p>Acá ves el estado de tus sesiones solicitadas y sus entregables.</p>
+        <h2>Historial de reuniones</h2>
+        <p>Acá ves el estado de tus sesiones solicitadas, sus resúmenes y las tareas acordadas.</p>
       </div>
 
       <div className="cta-row" style={{ marginBottom: 28 }}>
@@ -43,6 +48,52 @@ export default async function PortalDashboard() {
               href={`/portal/reservas/${booking.id}`}
             />
           ))}
+        </div>
+      )}
+
+      <div className="section-head" style={{ marginTop: 48 }}>
+        <h3>Entregables</h3>
+        <p>El resumen escrito de cada sesión, para que no dependa de tu memoria.</p>
+      </div>
+      {!deliverables || deliverables.length === 0 ? (
+        <p className="price-desc">Todavía no tienes entregables.</p>
+      ) : (
+        <div className="portal-list">
+          {deliverables.map((d) => {
+            const booking = d.bookings as unknown as { id: string; created_at: string; packages: { name: string } | null } | null;
+            return (
+              <Link key={d.id} href={`/portal/reservas/${booking?.id}`} className="portal-card portal-card-link">
+                <div className="portal-card-head">
+                  <p className="price-name">{booking?.packages?.name ?? "Sesión"}</p>
+                  <p className="price-meta">{new Date(d.created_at).toLocaleDateString("es-CL")}</p>
+                </div>
+                <p className="price-desc">{d.summary}</p>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="section-head" style={{ marginTop: 48 }}>
+        <h3>Tareas acordadas</h3>
+        <p>Los próximos pasos que quedaron definidos en cada sesión.</p>
+      </div>
+      {!deliverables || deliverables.length === 0 ? (
+        <p className="price-desc">Todavía no tienes tareas acordadas.</p>
+      ) : (
+        <div className="portal-list">
+          {deliverables.map((d) => {
+            const booking = d.bookings as unknown as { id: string; created_at: string; packages: { name: string } | null } | null;
+            return (
+              <div key={d.id} className="portal-card">
+                <div className="portal-card-head">
+                  <p className="price-name">{booking?.packages?.name ?? "Sesión"}</p>
+                  <p className="price-meta">{new Date(d.created_at).toLocaleDateString("es-CL")}</p>
+                </div>
+                <p className="price-desc">{d.action_plan}</p>
+              </div>
+            );
+          })}
         </div>
       )}
     </>

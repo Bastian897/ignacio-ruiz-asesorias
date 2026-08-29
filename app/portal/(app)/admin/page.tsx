@@ -54,6 +54,27 @@ export default async function AdminDashboard() {
           </tbody>
         </table>
       </div>
+
+      <div className="admin-booking-cards">
+        {bookings?.map((b) => {
+          const pkg = b.packages as unknown as { name: string } | null;
+          const client = b.profiles as unknown as { full_name: string | null; email: string } | null;
+          return (
+            <Link key={b.id} href={`/portal/admin/reservas/${b.id}`} className="portal-card portal-card-link">
+              <div className="portal-card-head">
+                <p className="price-name">{client?.full_name || client?.email}</p>
+                <div className="portal-badges">
+                  <StatusBadge value={b.status} kind="status" />
+                  <StatusBadge value={b.payment_status} kind="payment" />
+                </div>
+              </div>
+              <p className="price-meta">
+                {pkg?.name} · {new Date(b.created_at).toLocaleDateString("es-CL")}
+              </p>
+            </Link>
+          );
+        })}
+      </div>
     </>
   );
 }
