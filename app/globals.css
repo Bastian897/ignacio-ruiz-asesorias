@@ -145,9 +145,12 @@ a {
 .nav-link:hover {
   color: var(--color-ink);
 }
-@media (max-width: 480px) {
+@media (max-width: 400px) {
   .nav-link {
-    display: none;
+    font-size: 0.8rem;
+  }
+  .nav-actions {
+    gap: 12px;
   }
 }
 

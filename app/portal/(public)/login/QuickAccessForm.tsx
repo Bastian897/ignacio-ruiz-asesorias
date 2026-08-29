@@ -32,7 +32,7 @@ export function QuickAccessForm() {
       return;
     }
 
-    router.push("/portal");
+    router.push(role === "admin" ? "/portal/admin" : "/portal");
     router.refresh();
   }
 
