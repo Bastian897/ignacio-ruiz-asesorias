@@ -15,7 +15,7 @@ export default function LoginPage() {
         </Link>
         <div className="section-head" style={{ marginTop: 24 }}>
           <h2>Portal de clientes</h2>
-          <p>Acceso rápido mientras el portal está en pruebas: escribe tu nombre y entra.</p>
+          <p>Acceso rápido mientras el portal está en pruebas: elige con qué rol entrar.</p>
         </div>
         <QuickAccessForm />
       </div>

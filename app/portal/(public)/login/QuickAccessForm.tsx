@@ -4,42 +4,31 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
+// Cuentas demo fijas mientras el portal está en pruebas — sin fricción, sin datos reales.
+const DEMO_PASSWORD = "portal-demo-2026";
+const DEMO_ACCOUNTS = {
+  client: "maria.fernandez@demo.local",
+  admin: "admin-demo@portal.local",
+} as const;
+
 export function QuickAccessForm() {
-  const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<"client" | "admin" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   async function enter(role: "client" | "admin") {
-    setLoading(true);
+    setLoading(role);
     setError(null);
     const supabase = createClient();
 
-    let userId: string | undefined;
-    const {
-      data: { user: existingUser },
-    } = await supabase.auth.getUser();
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: DEMO_ACCOUNTS[role],
+      password: DEMO_PASSWORD,
+    });
 
-    if (existingUser) {
-      userId = existingUser.id;
-    } else {
-      const { data, error: authError } = await supabase.auth.signInAnonymously();
-      if (authError || !data.user) {
-        setError(authError?.message ?? "No se pudo entrar. Intenta de nuevo.");
-        setLoading(false);
-        return;
-      }
-      userId = data.user.id;
-    }
-
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({ full_name: name.trim() || null, role })
-      .eq("id", userId);
-
-    if (profileError) {
-      setError(profileError.message);
-      setLoading(false);
+    if (authError) {
+      setError(authError.message);
+      setLoading(null);
       return;
     }
 
@@ -49,21 +38,13 @@ export function QuickAccessForm() {
 
   return (
     <div className="portal-card portal-form">
-      <label htmlFor="name">Tu nombre</label>
-      <input
-        id="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Escribe cualquier nombre"
-        autoComplete="off"
-      />
       {error && <p className="portal-error">{error}</p>}
-      <div className="cta-row" style={{ marginTop: 18 }}>
-        <button className="btn btn-nav" type="button" disabled={loading} onClick={() => enter("client")}>
-          Entrar como cliente
+      <div className="cta-row">
+        <button className="btn btn-nav" type="button" disabled={loading !== null} onClick={() => enter("client")}>
+          {loading === "client" ? "Entrando…" : "Entrar como cliente"}
         </button>
-        <button className="btn btn-ghost" type="button" disabled={loading} onClick={() => enter("admin")}>
-          Entrar como admin
+        <button className="btn btn-ghost" type="button" disabled={loading !== null} onClick={() => enter("admin")}>
+          {loading === "admin" ? "Entrando…" : "Entrar como admin"}
         </button>
       </div>
     </div>
